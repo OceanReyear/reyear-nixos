@@ -13,6 +13,9 @@
     alacritty
     vscode
     obsidian
+    obs-studio
+    wemeet
+    typora
     firefox
     qq
     wechat-uos
