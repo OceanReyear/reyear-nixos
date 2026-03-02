@@ -16,6 +16,7 @@
     obs-studio
     wemeet
     typora
+    vlc
     wpsoffice-cn
     firefox
     qq
