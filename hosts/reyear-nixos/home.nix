@@ -18,36 +18,44 @@
 
   programs.home-manager.enable = true;
 
-  # KDE Plasma 配置
-  # 使用xdg.configFile手动管理KDE配置
-  xdg.configFile = {
+  # ============================================
+  # Plasma Manager 配置
+  # ============================================
+  programs.plasma = {
+    enable = true;
+
     # KWin 窗口特效配置
+    kwin.effects = {
+      magiclamp.enable = true;
+      wobblyWindows.enable = true;
+      desktopgrid.enable = true;
+      presentWindows.enable = true;
+
+      # 最小化动画配置
+      minimization = {
+        animation = "magiclamp";
+        duration = 400;
+      };
+    };
+  };
+
+  # ============================================
+  # 手动 KDE 配置（仅保留非动效配置）
+  # ============================================
+  xdg.configFile = {
+    # KWin 窗口行为配置
     "kwinrc" = {
-      force = true;
       text = ''
         [Windows]
         BorderSnapZone=10
         CenterSnapZone=0
         SnapOnlyWhenClose=false
         ActiveMouseScreen=true
-
-        [Effect-wobblywindows]
-        Wobblyness=4
-
-        [Effect-magiclamp]
-        AnimationDuration=400
-
-        [Effect-desktopgrid]
-        BorderActivate=9
-
-        [Effect-presentwindows]
-        BorderActivateAll=9
       '';
     };
 
     # Plasma 面板配置
     "plasmashellrc" = {
-      force = true;
       text = ''
         [PlasmaViews][Panel 2]
         floating=1
