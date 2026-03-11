@@ -19,31 +19,12 @@
   programs.home-manager.enable = true;
 
   # ============================================
-  # Plasma Manager 配置
-  # ============================================
-  programs.plasma = {
-    enable = true;
-
-    # KWin 窗口特效配置
-    kwin.effects = {
-      magiclamp.enable = true;
-      wobblyWindows.enable = true;
-      desktopgrid.enable = true;
-      presentWindows.enable = true;
-
-      # 最小化动画配置
-      minimization = {
-        animation = "magiclamp";
-        duration = 400;
-      };
-    };
-  };
-
-  # ============================================
-  # 手动 KDE 配置（仅保留非动效配置）
+  # KDE Plasma 配置（使用 xdg.configFile）
+  # 关键修复：删除 minimizeanimationEnabled=false
+  # 避免与 magiclamp 效果冲突导致双重动画
   # ============================================
   xdg.configFile = {
-    # KWin 窗口行为配置
+    # KWin 窗口特效配置
     "kwinrc" = {
       text = ''
         [Windows]
@@ -51,6 +32,24 @@
         CenterSnapZone=0
         SnapOnlyWhenClose=false
         ActiveMouseScreen=true
+
+        [Effect-wobblywindows]
+        Wobblyness=4
+
+        [Effect-magiclamp]
+        AnimationDuration=400
+
+        [Effect-desktopgrid]
+        BorderActivate=9
+
+        [Effect-presentwindows]
+        BorderActivateAll=9
+
+        [Plugins]
+        wobblywindowsEnabled=true
+        magiclampEnabled=true
+        desktopgridEnabled=true
+        presentwindowsEnabled=true
       '';
     };
 

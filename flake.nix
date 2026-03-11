@@ -12,12 +12,6 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager/trunk";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -37,11 +31,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.reyear = {
-              imports = [
-                ./hosts/reyear-nixos/home.nix
-              ];
-            };
+            home-manager.users.reyear = import ./hosts/reyear-nixos/home.nix;
           }
         ];
       };
