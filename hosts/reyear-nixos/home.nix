@@ -1,4 +1,4 @@
-{ config, pkgs, faceImage, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -10,7 +10,6 @@
     ./home/ssh.nix
     ./home/zsh.nix
     ./home/devtools.nix
-    ./home/plasma.nix
   ];
 
   home.username = "reyear";
@@ -18,15 +17,4 @@
   home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
-
-  home.packages = with pkgs; [
-    kdePackages.plasma-workspace
-    kdePackages.plasma-nm
-  ];
-
-  # 用户头像配置
-  home.file.".face" = {
-    source = faceImage;
-    force = true;
-  };
 }
