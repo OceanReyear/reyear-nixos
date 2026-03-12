@@ -10,6 +10,7 @@
         location = "bottom";
         floating = true;  # 悬浮效果
         height = 48;
+        opacity = "adaptive";  # 自适应透明度
 
         widgets = [
           # 应用启动器
@@ -20,66 +21,69 @@
           }
 
           # 分隔符
-          "org.kde.plasma.marginsseparator"
+          "org.kde.plasma.marginseparator"
 
           # 任务管理器
           "org.kde.plasma.icontasks"
 
           # 分隔符
-          "org.kde.plasma.marginsseparator"
+          "org.kde.plasma.marginseparator"
 
-          # CPU 使用率监控
+          # CPU 使用率监控 - 使用 textOnlySensorIds
           {
-            systemMonitor = {
-              title = "CPU";
-              displayStyle = "org.kde.ksysguard.piechart";
-              sensors = [
-                {
-                  name = "cpu/all/usage";
-                  color = "61, 174, 233";  # 蓝色
-                  label = "CPU %";
-                }
-              ];
+            name = "org.kde.plasma.systemmonitor";
+            config = {
+              "Appearance/chartFace" = "org.kde.ksysguard.textonlychart";
+              "Sensors/textOnlySensorIds" = [ "cpu/all/usage" ];
             };
           }
 
           # 内存使用率监控
           {
-            systemMonitor = {
-              title = "Memory";
-              displayStyle = "org.kde.ksysguard.piechart";
-              sensors = [
-                {
-                  name = "memory/physical/usedPercent";
-                  color = "239, 240, 241";  # 浅灰色
-                  label = "Memory %";
-                }
+            name = "org.kde.plasma.systemmonitor";
+            config = {
+              "Appearance/chartFace" = "org.kde.ksysguard.textonlychart";
+              "Sensors/textOnlySensorIds" = [ "memory/physical/usedPercent" ];
+            };
+          }
+
+          # 网络速度监控
+          {
+            name = "org.kde.plasma.systemmonitor";
+            config = {
+              "Appearance/chartFace" = "org.kde.ksysguard.textonlychart";
+              "Sensors/textOnlySensorIds" = [
+                "network/all/download"
+                "network/all/upload"
               ];
             };
           }
 
-          # 网络速度监控 (下载)
+          # 记事贴 - 点击打开记事贴
           {
-            systemMonitor = {
-              title = "Network";
-              displayStyle = "org.kde.ksysguard.linechart";
-              sensors = [
-                {
-                  name = "network/all/download";
-                  color = "118, 174, 35";  # 绿色
-                  label = "↓ Download";
-                }
-                {
-                  name = "network/all/upload";
-                  color = "239, 96, 0";  # 橙色
-                  label = "↑ Upload";
-                }
-              ];
+            name = "org.kde.plasma.notes";
+            config = {
+              General = {
+                noteId = "quick-note";
+              };
             };
           }
 
           # 系统托盘
-          "org.kde.plasma.systemtray"
+          {
+            systemTray = {
+              items = {
+                shown = [
+                  "org.kde.plasma.bluetooth"
+                  "org.kde.plasma.battery"
+                ];
+                hidden = [
+                  "org.kde.plasma.networkmanagement"
+                  "org.kde.plasma.volume"
+                ];
+              };
+            };
+          }
 
           # 数字时钟
           {
@@ -89,26 +93,6 @@
             };
           }
         ];
-      }
-    ];
-
-    # 桌面小组件 - 记事贴
-    desktop.widgets = [
-      {
-        name = "org.kde.plasma.notes";
-        position = {
-          horizontal = 100;
-          vertical = 100;
-        };
-        size = {
-          width = 300;
-          height = 300;
-        };
-        config = {
-          General = {
-            noteId = "default";
-          };
-        };
       }
     ];
   };
