@@ -343,6 +343,7 @@ in {
     mplus-outline-fonts.githubRelease
     dina-font
     jetbrains-mono
+    nerd-fonts.jetbrains-mono
     proggyfonts
   ];
 

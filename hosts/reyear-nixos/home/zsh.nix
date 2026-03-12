@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    zsh-powerlevel10k
+  ];
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -8,7 +12,7 @@
     syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
-      theme = "powerlevel10k";
+      theme = "robbyrussell";
       plugins = [ "git" ];
     };
     history = {
@@ -17,6 +21,8 @@
       share = true;
     };
     initContent = ''
+      # Load powerlevel10k
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       if [[ -f ~/.p10k.zsh ]]; then
         source ~/.p10k.zsh
       fi
