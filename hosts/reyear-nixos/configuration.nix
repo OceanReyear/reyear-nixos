@@ -363,6 +363,29 @@ in {
     docker-compose
   ];
 
+  # ============================================
+  # TLP 电池管理配置
+  # ============================================
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      # Lenovo 笔记本电池充电阈值配置
+      # 注意：Lenovo 使用 conservation_mode（守恒模式）
+      # STOP_CHARGE_THRESH_BAT0: 0=关闭，1=开启（约 80% 上限）
+
+      # 启用电池守恒模式（1=启用，0=禁用）
+      # 启用后电池会限制充电到约 80%，延长电池寿命
+      STOP_CHARGE_THRESH_BAT0 = 1;
+
+      # 开始充电阈值（当电量低于此值时开始充电）
+      START_CHARGE_THRESH_BAT0 = 70;
+
+      # 自然放电阈值
+      NATURAL_DISCHARGE_BAT0 = 98;
+    };
+  };
+
 
   nixpkgs.config.allowUnfree = true;
 

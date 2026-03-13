@@ -14,12 +14,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    nix-openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs =
+    { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ inputs.nix-openclaw.overlays.default ];
+        config.allowUnfree = true;
+      };
     in
     {
       nixosConfigurations.reyear-nixos = nixpkgs.lib.nixosSystem {
@@ -30,7 +41,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs pkgs; };
             home-manager.users.reyear = { config, pkgs, inputs, ... }: {
               imports = [
                 inputs.plasma-manager.homeModules.plasma-manager
@@ -38,6 +49,16 @@
               ];
             };
           }
+        ];
+      };
+
+      # Home Manager standalone configuration (required for nix-openclaw)
+      homeConfigurations."reyear" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          inputs.nix-openclaw.homeManagerModules.openclaw
+          ./hosts/reyear-nixos/home.nix
+          ./hosts/reyear-nixos/home/openclaw.nix  # OpenClaw config
         ];
       };
     };
