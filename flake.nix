@@ -31,24 +31,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.reyear = { config, pkgs, ... }@args: {
-              imports = [
-                inputs.plasma-manager.homeModules.plasma-manager
-                ./hosts/reyear-nixos/home/packages.nix
-                ./hosts/reyear-nixos/home/direnv.nix
-                ./hosts/reyear-nixos/home/git.nix
-                ./hosts/reyear-nixos/home/shell.nix
-                ./hosts/reyear-nixos/home/editors.nix
-                ./hosts/reyear-nixos/home/ssh.nix
-                ./hosts/reyear-nixos/home/zsh.nix
-                ./hosts/reyear-nixos/home/devtools.nix
-              ];
-
-              home.username = "reyear";
-              home.homeDirectory = "/home/reyear";
-              home.stateVersion = "25.11";
-              programs.home-manager.enable = true;
-            };
+            home-manager.users.reyear = import ./hosts/reyear-nixos/home.nix;
           }
         ];
       };

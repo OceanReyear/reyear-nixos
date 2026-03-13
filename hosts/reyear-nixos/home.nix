@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
+    inputs.plasma-manager.homeModules.plasma-manager
     ./home/packages.nix
     ./home/direnv.nix
     ./home/git.nix
-    ./home/shell.nix
     ./home/editors.nix
     ./home/ssh.nix
     ./home/zsh.nix
