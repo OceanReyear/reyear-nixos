@@ -257,7 +257,19 @@ in {
 
   programs.zsh.enable = true;
 
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    settings = {
+      General = {
+        theme = "breeze";
+        background = "/etc/sddm/wallpapers/bg.png";
+      };
+    };
+  };
+
+  # 复制壁纸到 /etc 目录供 SDDM 使用
+  environment.etc."sddm/wallpapers/bg.png".source = "${../../assets/bg.png}";
+
   services.desktopManager.plasma6.enable = true;
 
   hardware.bluetooth.enable = true;
@@ -364,28 +376,25 @@ in {
   ];
 
   # ============================================
-  # TLP 电池管理配置
+  # Lenovo 电池守恒模式（充电阈值约 80%）
   # ============================================
 
-  services.tlp = {
-    enable = true;
-    settings = {
-      # Lenovo 笔记本电池充电阈值配置
-      # 注意：Lenovo 使用 conservation_mode（守恒模式）
-      # STOP_CHARGE_THRESH_BAT0: 0=关闭，1=开启（约 80% 上限）
-
-      # 启用电池守恒模式（1=启用，0=禁用）
-      # 启用后电池会限制充电到约 80%，延长电池寿命
-      STOP_CHARGE_THRESH_BAT0 = 1;
-
-      # 开始充电阈值（当电量低于此值时开始充电）
-      START_CHARGE_THRESH_BAT0 = 70;
-
-      # 自然放电阈值
-      NATURAL_DISCHARGE_BAT0 = 98;
+  # 通过 systemd 服务启用 Lenovo conservation mode
+  systemd.services.lenovo-conservation-mode = {
+    description = "Enable Lenovo battery conservation mode";
+    after = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
     };
+    script = ''
+      if [ -f /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode ]; then
+        echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
+        echo "Lenovo conservation mode enabled"
+      fi
+    '';
   };
-
 
   nixpkgs.config.allowUnfree = true;
 

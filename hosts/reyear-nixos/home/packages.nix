@@ -17,7 +17,6 @@
     obs-studio
     typora
     vlc
-    tlp
     libreoffice
     firefox
     google-chrome
