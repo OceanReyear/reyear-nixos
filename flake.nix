@@ -24,14 +24,19 @@
     {
       nixosConfigurations.reyear-nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/reyear-nixos/configuration.nix
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.reyear = import ./hosts/reyear-nixos/home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.reyear = { config, pkgs, inputs, ... }: {
+              imports = [
+                inputs.plasma-manager.homeModules.plasma-manager
+                ./hosts/reyear-nixos/home.nix
+              ];
+            };
           }
         ];
       };
