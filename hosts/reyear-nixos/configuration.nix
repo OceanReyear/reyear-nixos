@@ -11,7 +11,7 @@
   users.users.reyear = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
-    # Set password locally after first boot, e.g. run `passwd reyear`.
+    # Set password after first boot from root/sudo, e.g. run `passwd reyear`.
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
