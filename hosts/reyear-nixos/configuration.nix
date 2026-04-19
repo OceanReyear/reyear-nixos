@@ -34,7 +34,7 @@
     # --- 网络 ---                                                                                                                                    
     networking.hostName = "reyear-nixos";
     networking.networkmanager.enable = true;                                                                                                          
-                                                                                                                                                      
+    networking.nameservers = [ "1.1.1.1" "8.8.8.8" "223.5.5.5" ];                                                                                                                                                  
     # --- 区域与语言 ---                                                                                                                              
     time.timeZone = "Asia/Shanghai";                                                                                                                  
     i18n.defaultLocale = "en_US.UTF-8";                                                                                                               
